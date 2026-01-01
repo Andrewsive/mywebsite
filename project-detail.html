@@ -82,7 +82,6 @@
         );
 
         const ProjectDetail = () => {
-            const [currentImageIndex, setCurrentImageIndex] = useState(0);
             const [project, setProject] = useState(null);
 
             useEffect(() => {
@@ -92,29 +91,6 @@
                 setProject(projectsData[projectId]);
                 console.log('Project loaded:', projectsData[projectId]);
             }, []);
-
-            const nextImage = () => {
-                if (project && currentImageIndex < project.images.length - 1) {
-                    setCurrentImageIndex(currentImageIndex + 1);
-                }
-            };
-
-            const prevImage = () => {
-                if (project && currentImageIndex > 0) {
-                    setCurrentImageIndex(currentImageIndex - 1);
-                }
-            };
-
-            // 键盘快捷键
-            useEffect(() => {
-                if (!project) return;
-                const handleKeyPress = (e) => {
-                    if (e.key === 'ArrowRight') nextImage();
-                    if (e.key === 'ArrowLeft') prevImage();
-                };
-                window.addEventListener('keydown', handleKeyPress);
-                return () => window.removeEventListener('keydown', handleKeyPress);
-            }, [currentImageIndex, project]);
 
             if (!project) {
                 return <div className="min-h-screen flex items-center justify-center text-2xl">Loading...</div>;
@@ -133,13 +109,6 @@
                             <ArrowLeft size={20} />
                             <span className="text-sm uppercase tracking-widest">Back to Home</span>
                         </motion.a>
-                        <motion.div 
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            className="text-sm font-mono text-gray-600"
-                        >
-                            {currentImageIndex + 1} / {project.images.length}
-                        </motion.div>
                     </nav>
 
                     {/* 项目信息头部 */}
@@ -177,64 +146,25 @@
                         </motion.div>
                     </div>
 
-                    {/* 图片展示区 */}
-                    <div className="relative">
-                        {/* 主图片 */}
-                        <div className="relative w-full" style={{ minHeight: '80vh' }}>
-                            <motion.img
-                                key={currentImageIndex}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5 }}
-                                src={project.images[currentImageIndex]}
-                                alt={`${project.title} - ${currentImageIndex + 1}`}
-                                className="w-full h-auto object-contain"
-                            />
-
-                            {/* 左右切换按钮 */}
-                            {currentImageIndex > 0 && (
-                                <button 
-                                    className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 text-black text-6xl font-light hover:scale-110 transition-transform bg-white/80 hover:bg-white rounded-full w-16 h-16 flex items-center justify-center backdrop-blur-sm shadow-lg"
-                                    onClick={prevImage}
+                    {/* 图片展示区 - 垂直排列 */}
+                    <div className="px-6 md:px-20 pb-20">
+                        <div className="max-w-6xl mx-auto space-y-12">
+                            {project.images.map((img, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-10%" }}
+                                    transition={{ duration: 0.6, delay: idx * 0.1 }}
+                                    className="relative overflow-hidden rounded-lg shadow-lg"
                                 >
-                                    ‹
-                                </button>
-                            )}
-
-                            {currentImageIndex < project.images.length - 1 && (
-                                <button 
-                                    className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 text-black text-6xl font-light hover:scale-110 transition-transform bg-white/80 hover:bg-white rounded-full w-16 h-16 flex items-center justify-center backdrop-blur-sm shadow-lg"
-                                    onClick={nextImage}
-                                >
-                                    ›
-                                </button>
-                            )}
-                        </div>
-
-                        {/* 缩略图导航 */}
-                        <div className="py-12 px-6 md:px-20">
-                            <div className="flex gap-4 overflow-x-auto pb-4">
-                                {project.images.map((img, idx) => (
-                                    <motion.button
-                                        key={idx}
-                                        whileHover={{ scale: 1.05 }}
-                                        onClick={() => setCurrentImageIndex(idx)}
-                                        className={`flex-shrink-0 relative overflow-hidden rounded-lg transition-all ${
-                                            idx === currentImageIndex 
-                                                ? 'ring-2 ring-white opacity-100' 
-                                                : 'opacity-50 hover:opacity-75'
-                                        }`}
-                                        style={{ width: '120px', height: '80px' }}
-                                    >
-                                        <img 
-                                            src={img} 
-                                            alt={`Thumbnail ${idx + 1}`}
-                                            className="w-full h-full object-cover"
-                                        />
-                                        <div className="absolute inset-0 bg-black/20"></div>
-                                    </motion.button>
-                                ))}
-                            </div>
+                                    <img
+                                        src={img}
+                                        alt={`${project.title} - ${idx + 1}`}
+                                        className="w-full h-auto object-contain"
+                                    />
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
 
