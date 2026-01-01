@@ -27,7 +27,13 @@
             background-color: #f9f9f9; /* 纸张质感的灰白 */
             color: #111;
             overflow-x: hidden;
-            cursor: none; /* 隐藏默认鼠标，使用自定义鼠标 */
+        }
+        
+        /* 桌面端隐藏默认光标 */
+        @media (min-width: 768px) {
+            body {
+                cursor: none;
+            }
         }
         
         .font-serif {
@@ -66,23 +72,22 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 20px;
-            height: 20px;
-            border: 1px solid #000;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #000;
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background-color 0.3s;
-            mix-blend-mode: difference;
-            background-color: transparent;
+            transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
+            opacity: 1;
         }
         
         .custom-cursor.hovered {
             width: 50px;
             height: 50px;
-            background-color: #fff;
-            border-color: transparent;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-color: #000;
         }
     </style>
 </head>
