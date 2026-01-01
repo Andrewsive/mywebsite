@@ -146,6 +146,7 @@
                 year: "2024",
                 description: "SeaSavor Vessel is a salt jar designed for Chinese seaside fishermen. It combines bamboo weaving craftsmanship with modern design, addressing traditional challenges in collecting and storing brine. The design incorporates Chinese Feng Shui elements and sustainable bamboo materials, creating a unique fusion of cultural heritage and contemporary functionality.",
                 tags: ["Product Design", "Sustainable Design", "Cultural Heritage", "A' Design Award"],
+                externalLink: "https://competition.adesignaward.com/design.php?ID=165829",
                 images: [
                     "作品集/A design版面/SeaSavor Vessel/1.jpg",
                     "作品集/A design版面/SeaSavor Vessel/2.jpg",
@@ -246,6 +247,30 @@
                                 </motion.div>
                             ))}
                         </div>
+
+                        {/* 外部链接按钮 */}
+                        {project.externalLink && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                className="max-w-6xl mx-auto mt-16 text-center"
+                            >
+                                <a 
+                                    href={project.externalLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-8 py-4 bg-black text-white hover:bg-gray-800 transition-all duration-300 rounded-full text-lg font-medium group"
+                                >
+                                    <span>Learn More</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
+                                        <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
+                                    </svg>
+                                </a>
+                                <p className="mt-4 text-sm text-gray-500">View this project on A' Design Award</p>
+                            </motion.div>
+                        )}
                     </div>
 
                     {/* 底部导航 */}
