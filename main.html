@@ -119,11 +119,19 @@
         const projects = [
             {
                 id: 1,
-                title: "Ethereal Form",
-                category: "Brand Identity",
-                year: "2025",
-                image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2787&auto=format&fit=crop",
-                size: "large" // 占据两列
+                title: "FormulaPro",
+                category: "中药配伍服务设计",
+                year: "2024",
+                image: "作品集/中药配伍/cover.png",
+                size: "large", // 占据两列
+                detailImages: [
+                    "作品集/中药配伍/FormulaPro-01.jpg",
+                    "作品集/中药配伍/FormulaPro-02.jpg",
+                    "作品集/中药配伍/FormulaPro-03.jpg",
+                    "作品集/中药配伍/FormulaPro-04.jpg",
+                    "作品集/中药配伍/FormulaPro-05.jpg",
+                    "作品集/中药配伍/FomulaPro.jpg"
+                ]
             },
             {
                 id: 2,
@@ -154,6 +162,8 @@
         const App = () => {
             const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
             const [cursorVariant, setCursorVariant] = useState("default");
+            const [selectedProject, setSelectedProject] = useState(null);
+            const [currentImageIndex, setCurrentImageIndex] = useState(0);
             
             // 鼠标跟随逻辑
             useEffect(() => {
@@ -170,6 +180,47 @@
             // 滚动视差设置
             const { scrollYProgress } = useScroll();
             const yRange = useTransform(scrollYProgress, [0, 1], [0, -50]);
+
+            // 打开作品详情
+            const openProject = (project) => {
+                if (project.detailImages) {
+                    setSelectedProject(project);
+                    setCurrentImageIndex(0);
+                    document.body.style.overflow = 'hidden';
+                }
+            };
+
+            // 关闭作品详情
+            const closeProject = () => {
+                setSelectedProject(null);
+                setCurrentImageIndex(0);
+                document.body.style.overflow = 'auto';
+            };
+
+            // 上一张/下一张图片
+            const nextImage = () => {
+                if (selectedProject && currentImageIndex < selectedProject.detailImages.length - 1) {
+                    setCurrentImageIndex(currentImageIndex + 1);
+                }
+            };
+
+            const prevImage = () => {
+                if (selectedProject && currentImageIndex > 0) {
+                    setCurrentImageIndex(currentImageIndex - 1);
+                }
+            };
+
+            // 键盘快捷键
+            useEffect(() => {
+                const handleKeyPress = (e) => {
+                    if (!selectedProject) return;
+                    if (e.key === 'Escape') closeProject();
+                    if (e.key === 'ArrowRight') nextImage();
+                    if (e.key === 'ArrowLeft') prevImage();
+                };
+                window.addEventListener('keydown', handleKeyPress);
+                return () => window.removeEventListener('keydown', handleKeyPress);
+            }, [selectedProject, currentImageIndex]);
 
             return (
                 <div className="relative min-h-screen bg-[#f9f9f9] text-[#111] overflow-hidden">
@@ -256,6 +307,7 @@
                                     className={`${project.size === 'large' ? 'md:col-span-2' : 'md:col-span-1'} group cursor-pointer`}
                                     onMouseEnter={textEnter}
                                     onMouseLeave={textLeave}
+                                    onClick={() => openProject(project)}
                                 >
                                     <div className="overflow-hidden relative mb-6">
                                         <motion.img 
@@ -377,6 +429,81 @@
                             <span>Taipei / World</span>
                         </div>
                     </footer>
+
+                    {/* 作品详情模态框 */}
+                    {selectedProject && (
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 md:p-8"
+                            onClick={closeProject}
+                        >
+                            {/* 关闭按钮 */}
+                            <button 
+                                className="absolute top-8 right-8 text-white text-4xl font-light hover:rotate-90 transition-transform duration-300 z-50"
+                                onClick={closeProject}
+                                onMouseEnter={textEnter}
+                                onMouseLeave={textLeave}
+                            >
+                                ×
+                            </button>
+
+                            {/* 图片计数器 */}
+                            <div className="absolute top-8 left-8 text-white text-sm z-50">
+                                <span className="font-mono">{currentImageIndex + 1} / {selectedProject.detailImages.length}</span>
+                            </div>
+
+                            {/* 图片容器 */}
+                            <div className="relative w-full h-full flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+                                <motion.img 
+                                    key={currentImageIndex}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.3 }}
+                                    src={selectedProject.detailImages[currentImageIndex]}
+                                    alt={`${selectedProject.title} - ${currentImageIndex + 1}`}
+                                    className="max-w-full max-h-full object-contain"
+                                />
+
+                                {/* 左右切换按钮 */}
+                                {currentImageIndex > 0 && (
+                                    <button 
+                                        className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-6xl font-light hover:scale-110 transition-transform"
+                                        onClick={prevImage}
+                                        onMouseEnter={textEnter}
+                                        onMouseLeave={textLeave}
+                                    >
+                                        ‹
+                                    </button>
+                                )}
+
+                                {currentImageIndex < selectedProject.detailImages.length - 1 && (
+                                    <button 
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-6xl font-light hover:scale-110 transition-transform"
+                                        onClick={nextImage}
+                                        onMouseEnter={textEnter}
+                                        onMouseLeave={textLeave}
+                                    >
+                                        ›
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* 底部缩略图导航 */}
+                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-50">
+                                {selectedProject.detailImages.map((img, idx) => (
+                                    <button
+                                        key={idx}
+                                        className={`w-3 h-3 rounded-full transition-all ${idx === currentImageIndex ? 'bg-white w-8' : 'bg-white/40 hover:bg-white/60'}`}
+                                        onClick={() => setCurrentImageIndex(idx)}
+                                        onMouseEnter={textEnter}
+                                        onMouseLeave={textLeave}
+                                    />
+                                ))}
+                            </div>
+                        </motion.div>
+                    )}
                 </div>
             );
         };
