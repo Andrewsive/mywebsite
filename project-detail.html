@@ -155,6 +155,20 @@
                     "作品集/A design版面/SeaSavor Vessel/d8d0450cf8dd586cfb205d63d39518b 1.png",
                     "作品集/A design版面/SeaSavor Vessel/微信图片_20260101222358_226_263.jpg"
                 ]
+            },
+            7: {
+                id: 7,
+                title: "VISTA",
+                subtitle: "未来智能出行 | 概念车HMI设计",
+                category: "HMI Design / Automotive Interaction",
+                year: "2024",
+                description: "VISTA explores the future of intelligent mobility through 'The Unbounded Journey' - an immersive tourism HMI design based on panoramic glass cockpit. This concept reimagines the commute as a meaningful human experience, transforming autonomous vehicles into adaptive, emotionally engaging intelligent mobility spaces.",
+                tags: ["HMI Design", "Automotive", "Future Mobility", "Concept Design"],
+                images: [
+                    "作品集/VISTA/B03903CA-ED41-4DCA-BB91-8523EFE68D7A.jpg",
+                    "作品集/VISTA/Future Intelligent Mobility.png",
+                    "作品集/VISTA/video.mp4"
+                ]
             }
         };
 
@@ -239,11 +253,22 @@
                                     transition={{ duration: 0.6, delay: idx * 0.1 }}
                                     className="relative overflow-hidden rounded-lg shadow-lg"
                                 >
-                                    <img
-                                        src={img}
-                                        alt={`${project.title} - ${idx + 1}`}
-                                        className="w-full h-auto object-contain"
-                                    />
+                                    {img.endsWith('.mp4') ? (
+                                        <video 
+                                            controls 
+                                            className="w-full h-auto"
+                                            poster={img.replace('.mp4', '-poster.jpg')}
+                                        >
+                                            <source src={img} type="video/mp4" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    ) : (
+                                        <img
+                                            src={img}
+                                            alt={`${project.title} - ${idx + 1}`}
+                                            className="w-full h-auto object-contain"
+                                        />
+                                    )}
                                 </motion.div>
                             ))}
                         </div>
