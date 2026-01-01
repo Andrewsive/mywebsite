@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yichen Chen | Visual Designer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    
+    <!-- Google Fonts: Playfair Display (Serif) & Inter (Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9; /* 纸张质感的灰白 */
+            color: #111;
+            overflow-x: hidden;
+            cursor: none; /* 隐藏默认鼠标，使用自定义鼠标 */
+        }
+        
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* 噪点纹理背景 */
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+            background-color: transparent;
+        }
+        
+        .custom-cursor.hovered {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { motion, useScroll, useTransform, useSpring } = window.Motion;
+
+        // --- 内嵌图标组件 (替换 Lucide 外部依赖) ---
+        const ArrowRight = ({ size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        );
+
+        const ArrowDown = ({ size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+        );
+
+        const Instagram = ({ size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        );
+
+        const Linkedin = ({ size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        );
+
+        const Mail = ({ size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        );
+        // -------------------------------------------
+
+        // 模拟作品数据
+        const projects = [
+            {
+                id: 1,
+                title: "Ethereal Form",
+                category: "Brand Identity",
+                year: "2025",
+                image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2787&auto=format&fit=crop",
+                size: "large" // 占据两列
+            },
+            {
+                id: 2,
+                title: "Silent Architecture",
+                category: "Photography",
+                year: "2024",
+                image: "https://images.unsplash.com/photo-1486718448742-163732cd1544?q=80&w=2787&auto=format&fit=crop",
+                size: "small"
+            },
+            {
+                id: 3,
+                title: "Typography Study",
+                category: "Editorial Design",
+                year: "2024",
+                image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop",
+                size: "small"
+            },
+            {
+                id: 4,
+                title: "Neo Tokyo",
+                category: "Art Direction",
+                year: "2023",
+                image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2670&auto=format&fit=crop",
+                size: "large"
+            }
+        ];
+
+        const App = () => {
+            const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+            const [cursorVariant, setCursorVariant] = useState("default");
+            
+            // 鼠标跟随逻辑
+            useEffect(() => {
+                const mouseMove = (e) => {
+                    setMousePosition({ x: e.clientX, y: e.clientY });
+                };
+                window.addEventListener("mousemove", mouseMove);
+                return () => window.removeEventListener("mousemove", mouseMove);
+            }, []);
+
+            const textEnter = () => setCursorVariant("hovered");
+            const textLeave = () => setCursorVariant("default");
+
+            // 滚动视差设置
+            const { scrollYProgress } = useScroll();
+            const yRange = useTransform(scrollYProgress, [0, 1], [0, -50]);
+
+            return (
+                <div className="relative min-h-screen bg-[#f9f9f9] text-[#111] overflow-hidden">
+                    <div className="noise-bg"></div>
+                    
+                    {/* 自定义鼠标 */}
+                    <motion.div 
+                        className={`custom-cursor hidden md:block ${cursorVariant}`}
+                        animate={{ x: mousePosition.x, y: mousePosition.y }}
+                        transition={{ type: "spring", stiffness: 500, damping: 28, mass: 0.5 }}
+                    />
+
+                    {/* 导航栏 */}
+                    <nav className="fixed top-0 w-full p-8 flex justify-between items-center z-40 mix-blend-difference text-white md:text-[#111] md:mix-blend-normal">
+                        <motion.div 
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="text-lg font-bold tracking-tighter"
+                            onMouseEnter={textEnter} onMouseLeave={textLeave}
+                        >
+                            Y.C.
+                        </motion.div>
+                        <motion.div 
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
+                            className="hidden md:flex space-x-8 text-sm uppercase tracking-widest"
+                        >
+                            <a href="#work" className="hover:line-through decoration-1 transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>Work</a>
+                            <a href="#about" className="hover:line-through decoration-1 transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>Profile</a>
+                            <a href="#contact" className="hover:line-through decoration-1 transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>Contact</a>
+                        </motion.div>
+                    </nav>
+
+                    {/* Hero Section */}
+                    <header className="h-screen flex flex-col justify-center px-6 md:px-20 relative pt-20">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 100 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                            className="relative z-10"
+                        >
+                            <h1 className="text-[12vw] leading-[0.85] font-serif italic tracking-tight" onMouseEnter={textEnter} onMouseLeave={textLeave}>
+                                Visual
+                            </h1>
+                            <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-12">
+                                <h1 className="text-[12vw] leading-[0.85] font-bold tracking-tighter" onMouseEnter={textEnter} onMouseLeave={textLeave}>
+                                    Designer
+                                </h1>
+                                <p className="mt-4 md:mt-0 text-sm md:text-base max-w-xs leading-relaxed text-gray-600 font-sans">
+                                    I craft digital experiences with a focus on typography, whitespace, and emotional connection.
+                                    <br/><br/>
+                                    <span className="block text-black font-semibold">Based in Taipei / Available Worldwide</span>
+                                </p>
+                            </div>
+                        </motion.div>
+
+                        <motion.div 
+                            className="absolute bottom-10 left-6 md:left-20 animate-bounce"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1.5 }}
+                        >
+                            <ArrowDown size={24} className="opacity-50" />
+                        </motion.div>
+                    </header>
+
+                    {/* 作品集展示 (Masonry / Grid) */}
+                    <section id="work" className="px-6 md:px-20 py-20 bg-white relative z-20">
+                        <div className="mb-20 flex items-end justify-between border-b border-gray-200 pb-8">
+                            <h2 className="text-4xl md:text-6xl font-serif italic">Selected Works</h2>
+                            <span className="text-sm uppercase tracking-widest hidden md:block">(2023 — Present)</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
+                            {projects.map((project, index) => (
+                                <motion.div 
+                                    key={project.id}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-10%" }}
+                                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                                    className={`${project.size === 'large' ? 'md:col-span-2' : 'md:col-span-1'} group cursor-pointer`}
+                                    onMouseEnter={textEnter}
+                                    onMouseLeave={textLeave}
+                                >
+                                    <div className="overflow-hidden relative mb-6">
+                                        <motion.img 
+                                            src={project.image} 
+                                            alt={project.title}
+                                            className="w-full h-[60vh] md:h-[80vh] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
+                                    </div>
+                                    
+                                    <div className="flex justify-between items-start border-t border-gray-900 pt-4">
+                                        <div>
+                                            <h3 className="text-2xl md:text-3xl font-medium mb-1 group-hover:italic transition-all duration-300">{project.title}</h3>
+                                            <p className="text-sm text-gray-500">{project.category}</p>
+                                        </div>
+                                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-[-10px] group-hover:translate-x-0">
+                                            <span className="text-sm font-semibold">View Case</span>
+                                            <ArrowRight size={16} />
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* 个人简介 (Editorial Layout) */}
+                    <section id="about" className="px-6 md:px-20 py-32 bg-[#111] text-[#f9f9f9]">
+                        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                            <div className="md:col-span-7">
+                                <motion.h2 
+                                    initial={{ opacity: 0, x: -50 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    className="text-4xl md:text-7xl font-serif italic mb-8 leading-tight"
+                                >
+                                    Design is intelligence <br/> made visible.
+                                </motion.h2>
+                                <motion.div 
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.2 }}
+                                    className="space-y-6 text-lg md:text-xl font-light text-gray-400 max-w-2xl"
+                                >
+                                    <p>
+                                        我是 Yichen Chen，一位专注于品牌视觉与数字体验的设计师。
+                                    </p>
+                                    <p>
+                                        我相信好的设计不仅是视觉上的愉悦，更是逻辑的自洽。我的设计哲学融合了瑞士平面设计的严谨秩序与东方美学的留白意境。我不只是在排列像素，而是在构建信息的情绪。
+                                    </p>
+                                </motion.div>
+
+                                <div className="mt-12 flex gap-8">
+                                    <div className="flex flex-col">
+                                        <span className="text-xs uppercase tracking-widest text-gray-500 mb-2">Services</span>
+                                        <ul className="text-sm space-y-1">
+                                            <li>Art Direction</li>
+                                            <li>UI/UX Design</li>
+                                            <li>Brand Identity</li>
+                                            <li>Web Development</li>
+                                        </ul>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="text-xs uppercase tracking-widest text-gray-500 mb-2">Recognition</span>
+                                        <ul className="text-sm space-y-1">
+                                            <li>Awwwards - Nominee</li>
+                                            <li>Behance - Featured</li>
+                                            <li>Taipei Design Award</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="md:col-span-5 relative">
+                                <motion.div 
+                                    initial={{ scale: 0.9, opacity: 0 }}
+                                    whileInView={{ scale: 1, opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    className="aspect-[3/4] bg-gray-800 relative overflow-hidden grayscale hover:grayscale-0 transition-all duration-700"
+                                    onMouseEnter={textEnter}
+                                    onMouseLeave={textLeave}
+                                >
+                                    {/* 这里放个人照片 */}
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=2864&auto=format&fit=crop" alt="Yichen Chen" className="object-cover w-full h-full" />
+                                </motion.div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer / Contact */}
+                    <footer id="contact" className="px-6 md:px-20 py-24 bg-[#f9f9f9] relative">
+                        <div className="border-t border-black mb-12"></div>
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end">
+                            <div>
+                                <h3 className="text-lg font-serif italic mb-4">Let's create something timeless.</h3>
+                                <a 
+                                    href="mailto:hello@yichen.design" 
+                                    className="text-5xl md:text-8xl font-bold tracking-tighter hover:text-gray-500 transition-colors"
+                                    onMouseEnter={textEnter}
+                                    onMouseLeave={textLeave}
+                                >
+                                    hello@yichen.design
+                                </a>
+                            </div>
+                            <div className="flex gap-6 mt-12 md:mt-0">
+                                <a href="#" className="p-3 border border-gray-300 rounded-full hover:bg-black hover:text-white transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>
+                                    <Instagram size={20} />
+                                </a>
+                                <a href="#" className="p-3 border border-gray-300 rounded-full hover:bg-black hover:text-white transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>
+                                    <Linkedin size={20} />
+                                </a>
+                                <a href="#" className="p-3 border border-gray-300 rounded-full hover:bg-black hover:text-white transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>
+                                    <Mail size={20} />
+                                </a>
+                            </div>
+                        </div>
+                        <div className="mt-20 flex justify-between text-xs text-gray-500 uppercase tracking-widest">
+                            <span>© 2026 Yichen Chen</span>
+                            <span>Taipei / World</span>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
