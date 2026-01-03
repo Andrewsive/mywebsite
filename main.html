@@ -489,25 +489,25 @@
                                     onMouseLeave={textLeave}
                                 >
                                     <a href={project.detailImages ? `project-detail.html?id=${project.id}` : '#'}>
-                                        <div className="overflow-hidden relative mb-6">
-                                            <motion.img 
-                                                src={project.image} 
-                                                alt={project.title}
-                                                className="w-full h-[60vh] md:h-[80vh] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                                            />
-                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
+                                    <div className="overflow-hidden relative mb-6">
+                                        <motion.img 
+                                            src={project.image} 
+                                            alt={project.title}
+                                            className="w-full h-[60vh] md:h-[80vh] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                        />
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500"></div>
+                                    </div>
+                                    
+                                    <div className="flex justify-between items-start border-t border-gray-900 pt-4">
+                                        <div>
+                                            <h3 className="text-2xl md:text-3xl font-medium mb-1 group-hover:italic transition-all duration-300">{project.title}</h3>
+                                            <p className="text-sm text-gray-500">{project.category}</p>
                                         </div>
-                                        
-                                        <div className="flex justify-between items-start border-t border-gray-900 pt-4">
-                                            <div>
-                                                <h3 className="text-2xl md:text-3xl font-medium mb-1 group-hover:italic transition-all duration-300">{project.title}</h3>
-                                                <p className="text-sm text-gray-500">{project.category}</p>
-                                            </div>
-                                            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-[-10px] group-hover:translate-x-0">
-                                                <span className="text-sm font-semibold">View Case</span>
-                                                <ArrowRight size={16} />
-                                            </div>
+                                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-[-10px] group-hover:translate-x-0">
+                                            <span className="text-sm font-semibold">View Case</span>
+                                            <ArrowRight size={16} />
                                         </div>
+                                    </div>
                                     </a>
                                 </motion.div>
                             ))}
@@ -554,9 +554,11 @@
                                     <div className="flex flex-col">
                                         <span className="text-xs uppercase tracking-widest text-gray-500 mb-2">Recognition</span>
                                         <ul className="text-sm space-y-1">
-                                            <li>Awwwards - Nominee</li>
-                                            <li>Behance - Featured</li>
-                                            <li>Taipei Design Award</li>
+                                            <li>A' Design Award</li>
+                                            <li>2025 Design Intelligence Award Innovation Incubation Award</li>
+                                            <li>Zhejiang Provincial Government Scholarship</li>
+                                            <li>Outstanding League Cadre of Zhejiang University</li>
+                                            <li>Outstanding Student of Zhejiang University</li>
                                         </ul>
                                     </div>
                                 </div>
