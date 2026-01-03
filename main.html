@@ -515,76 +515,104 @@
                         </div>
                     </section>
 
-                    {/* Project Experience Section - Editorial Style */}
-                    <section id="project" className="px-6 md:px-20 py-40 bg-[#f9f9f9]">
-                        <motion.div
-                            initial={{ opacity: 0, y: 50 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            className="mb-24"
-                        >
-                            <h2 className="text-8xl md:text-[10vw] font-serif italic mb-8 leading-[0.8] tracking-tight">Selected <br/> Experience</h2>
-                        </motion.div>
+                    {/* Project Experience Section - Editorial Year Style */}
+                    <section id="project" className="px-6 md:px-20 py-40 bg-[#f4f4f0]">
+                        <div className="flex flex-col md:flex-row justify-between items-start mb-32">
+                            <motion.h2 
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                className="text-6xl md:text-8xl font-serif mb-8 md:mb-0"
+                            >
+                                Experience
+                            </motion.h2>
+                            <motion.p 
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.2 }}
+                                className="max-w-md text-gray-500 text-sm leading-relaxed md:pt-4"
+                            >
+                                Exploring the boundaries of digital interaction and brand storytelling. A collection of selected works that define my journey in design and innovation.
+                            </motion.p>
+                        </div>
 
-                        <div className="flex flex-col">
-                            {/* Project Item 1 */}
-                            <div className="group border-t border-black py-16 transition-all duration-500 hover:bg-black hover:text-white cursor-pointer relative">
-                                <div className="flex flex-col md:flex-row md:items-baseline justify-between px-2 md:px-4">
-                                    <span className="text-6xl md:text-8xl font-bold opacity-20 group-hover:opacity-100 transition-opacity duration-500 font-sans mb-6 md:mb-0">01</span>
-                                    
-                                    <div className="md:ml-24 flex-1 relative z-10">
-                                        <h3 className="text-4xl md:text-6xl font-serif italic mb-2 group-hover:translate-x-4 transition-transform duration-500">Project Name</h3>
-                                        <p className="text-sm uppercase tracking-[0.2em] opacity-60 group-hover:translate-x-4 transition-transform duration-500 delay-75">Role / Category</p>
-                                    </div>
-
-                                    <div className="mt-8 md:mt-0 max-w-sm flex flex-col justify-between items-end text-right relative z-10">
-                                        <p className="text-lg leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 hidden md:block">
-                                            Description text goes here. Describe your role and impact in this project briefly.
-                                        </p>
-                                        <span className="text-xs font-mono border border-black group-hover:border-white px-3 py-1 rounded-full transition-colors duration-500">2024</span>
-                                    </div>
+                        <div className="border-t border-gray-300">
+                            {/* Item 1 */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8 }}
+                                className="group border-b border-gray-300 py-20 flex flex-col md:flex-row gap-12 md:gap-32 items-start hover:bg-[#ebebe7] transition-colors duration-500 -mx-6 px-6 md:-mx-20 md:px-20"
+                            >
+                                <div className="w-full md:w-1/3">
+                                    <span className="text-[8rem] md:text-[11rem] leading-[0.8] font-serif tracking-tight group-hover:italic transition-all duration-500 block">2025</span>
                                 </div>
-                            </div>
-
-                            {/* Project Item 2 */}
-                            <div className="group border-t border-black py-16 transition-all duration-500 hover:bg-black hover:text-white cursor-pointer relative">
-                                <div className="flex flex-col md:flex-row md:items-baseline justify-between px-2 md:px-4">
-                                    <span className="text-6xl md:text-8xl font-bold opacity-20 group-hover:opacity-100 transition-opacity duration-500 font-sans mb-6 md:mb-0">02</span>
-                                    
-                                    <div className="md:ml-24 flex-1 relative z-10">
-                                        <h3 className="text-4xl md:text-6xl font-serif italic mb-2 group-hover:translate-x-4 transition-transform duration-500">Project Name</h3>
-                                        <p className="text-sm uppercase tracking-[0.2em] opacity-60 group-hover:translate-x-4 transition-transform duration-500 delay-75">Role / Category</p>
-                                    </div>
-
-                                    <div className="mt-8 md:mt-0 max-w-sm flex flex-col justify-between items-end text-right relative z-10">
-                                        <p className="text-lg leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 hidden md:block">
-                                            Description text goes here. Describe your role and impact in this project briefly.
-                                        </p>
-                                        <span className="text-xs font-mono border border-black group-hover:border-white px-3 py-1 rounded-full transition-colors duration-500">2023</span>
-                                    </div>
+                                <div className="w-full md:w-2/3 flex flex-col pt-4">
+                                    <h3 className="text-xl font-serif mb-8 text-black">Interactive Designer & Strategist</h3>
+                                    <p className="text-gray-500 max-w-lg leading-relaxed text-sm">
+                                        Leading the design strategy for "Time Rings" pop-up space, integrating spatial design with service innovation to create immersive brand experiences.
+                                    </p>
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            {/* Project Item 3 */}
-                            <div className="group border-t border-black py-16 transition-all duration-500 hover:bg-black hover:text-white cursor-pointer relative">
-                                <div className="flex flex-col md:flex-row md:items-baseline justify-between px-2 md:px-4">
-                                    <span className="text-6xl md:text-8xl font-bold opacity-20 group-hover:opacity-100 transition-opacity duration-500 font-sans mb-6 md:mb-0">03</span>
-                                    
-                                    <div className="md:ml-24 flex-1 relative z-10">
-                                        <h3 className="text-4xl md:text-6xl font-serif italic mb-2 group-hover:translate-x-4 transition-transform duration-500">Project Name</h3>
-                                        <p className="text-sm uppercase tracking-[0.2em] opacity-60 group-hover:translate-x-4 transition-transform duration-500 delay-75">Role / Category</p>
-                                    </div>
-
-                                    <div className="mt-8 md:mt-0 max-w-sm flex flex-col justify-between items-end text-right relative z-10">
-                                        <p className="text-lg leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 hidden md:block">
-                                            Description text goes here. Describe your role and impact in this project briefly.
-                                        </p>
-                                        <span className="text-xs font-mono border border-black group-hover:border-white px-3 py-1 rounded-full transition-colors duration-500">2022</span>
-                                    </div>
+                            {/* Item 2 */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8, delay: 0.1 }}
+                                className="group border-b border-gray-300 py-20 flex flex-col md:flex-row gap-12 md:gap-32 items-start hover:bg-[#ebebe7] transition-colors duration-500 -mx-6 px-6 md:-mx-20 md:px-20"
+                            >
+                                <div className="w-full md:w-1/3">
+                                    <span className="text-[8rem] md:text-[11rem] leading-[0.8] font-serif tracking-tight group-hover:italic transition-all duration-500 block">2024</span>
                                 </div>
-                            </div>
-                            
-                            <div className="border-t border-black"></div>
+                                <div className="w-full md:w-2/3 flex flex-col pt-4">
+                                    <h3 className="text-xl font-serif mb-8 text-black">Product Designer - Blueclip Buddies</h3>
+                                    <p className="text-gray-500 max-w-lg leading-relaxed text-sm">
+                                        Innovating traditional crafts through product design. Created a simplified tie-dye kit for children to preserve and democratize intangible cultural heritage.
+                                    </p>
+                                </div>
+                            </motion.div>
+
+                            {/* Item 3 */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8, delay: 0.2 }}
+                                className="group border-b border-gray-300 py-20 flex flex-col md:flex-row gap-12 md:gap-32 items-start hover:bg-[#ebebe7] transition-colors duration-500 -mx-6 px-6 md:-mx-20 md:px-20"
+                            >
+                                <div className="w-full md:w-1/3">
+                                    <span className="text-[8rem] md:text-[11rem] leading-[0.8] font-serif tracking-tight group-hover:italic transition-all duration-500 block">2023</span>
+                                </div>
+                                <div className="w-full md:w-2/3 flex flex-col pt-4">
+                                    <h3 className="text-xl font-serif mb-8 text-black">UI/UX Designer - EmotiLink</h3>
+                                    <p className="text-gray-500 max-w-lg leading-relaxed text-sm">
+                                        Designed an emotional management app for the youth, leveraging AIGC to transform abstract feelings into personalized visual expressions.
+                                    </p>
+                                </div>
+                            </motion.div>
+
+                            {/* Item 4 */}
+                            <motion.div 
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8, delay: 0.3 }}
+                                className="group border-b border-gray-300 py-20 flex flex-col md:flex-row gap-12 md:gap-32 items-start hover:bg-[#ebebe7] transition-colors duration-500 -mx-6 px-6 md:-mx-20 md:px-20"
+                            >
+                                <div className="w-full md:w-1/3">
+                                    <span className="text-[8rem] md:text-[11rem] leading-[0.8] font-serif tracking-tight group-hover:italic transition-all duration-500 block">2022</span>
+                                </div>
+                                <div className="w-full md:w-2/3 flex flex-col pt-4">
+                                    <h3 className="text-xl font-serif mb-8 text-black">Visual Designer</h3>
+                                    <p className="text-gray-500 max-w-lg leading-relaxed text-sm">
+                                        Focused on branding and visual identity projects, exploring the intersection of typography and digital media.
+                                    </p>
+                                </div>
+                            </motion.div>
                         </div>
                     </section>
 
