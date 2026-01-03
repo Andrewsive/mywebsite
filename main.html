@@ -381,6 +381,7 @@
                             className="hidden md:flex space-x-8 text-sm uppercase tracking-widest"
                         >
                             <a href="#work" className="transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>Work</a>
+                            <a href="#project" className="transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>Project</a>
                             <a href="#about" className="transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>Profile</a>
                             <a href="#contact" className="transition-all" onMouseEnter={textEnter} onMouseLeave={textLeave}>Contact</a>
                         </motion.div>
@@ -511,6 +512,99 @@
                                     </a>
                                 </motion.div>
                             ))}
+                        </div>
+                    </section>
+
+                    {/* Project Experience Section */}
+                    <section id="project" className="px-6 md:px-20 py-32 bg-[#f9f9f9]">
+                        <motion.div
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="mb-16"
+                        >
+                            <h2 className="text-5xl md:text-7xl font-serif italic mb-4">Project Experience</h2>
+                            <p className="text-gray-600 text-lg">A journey through innovation and collaboration</p>
+                        </motion.div>
+
+                        <div className="space-y-12">
+                            {/* Project Item 1 - Example */}
+                            <motion.div
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6 }}
+                                className="border-l-2 border-black pl-8 pb-8 relative"
+                            >
+                                <div className="absolute -left-[9px] top-0 w-4 h-4 bg-black rounded-full"></div>
+                                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                    <div>
+                                        <h3 className="text-2xl md:text-3xl font-bold mb-2">项目名称</h3>
+                                        <p className="text-lg text-gray-600 mb-2">职位/角色</p>
+                                    </div>
+                                    <span className="text-sm text-gray-500 uppercase tracking-widest">2024 - Present</span>
+                                </div>
+                                <p className="text-gray-700 leading-relaxed mb-4">
+                                    在这里描述您的项目经历，包括您的职责、使用的技术、取得的成果等。可以详细说明项目的背景、您的贡献以及项目带来的影响。
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签1</span>
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签2</span>
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签3</span>
+                                </div>
+                            </motion.div>
+
+                            {/* Project Item 2 - Example */}
+                            <motion.div
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.1 }}
+                                className="border-l-2 border-black pl-8 pb-8 relative"
+                            >
+                                <div className="absolute -left-[9px] top-0 w-4 h-4 bg-black rounded-full"></div>
+                                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                    <div>
+                                        <h3 className="text-2xl md:text-3xl font-bold mb-2">项目名称</h3>
+                                        <p className="text-lg text-gray-600 mb-2">职位/角色</p>
+                                    </div>
+                                    <span className="text-sm text-gray-500 uppercase tracking-widest">2023 - 2024</span>
+                                </div>
+                                <p className="text-gray-700 leading-relaxed mb-4">
+                                    在这里描述您的项目经历，包括您的职责、使用的技术、取得的成果等。可以详细说明项目的背景、您的贡献以及项目带来的影响。
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签1</span>
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签2</span>
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签3</span>
+                                </div>
+                            </motion.div>
+
+                            {/* Project Item 3 - Example */}
+                            <motion.div
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                                className="border-l-2 border-black pl-8 relative"
+                            >
+                                <div className="absolute -left-[9px] top-0 w-4 h-4 bg-black rounded-full"></div>
+                                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                    <div>
+                                        <h3 className="text-2xl md:text-3xl font-bold mb-2">项目名称</h3>
+                                        <p className="text-lg text-gray-600 mb-2">职位/角色</p>
+                                    </div>
+                                    <span className="text-sm text-gray-500 uppercase tracking-widest">2022 - 2023</span>
+                                </div>
+                                <p className="text-gray-700 leading-relaxed mb-4">
+                                    在这里描述您的项目经历，包括您的职责、使用的技术、取得的成果等。可以详细说明项目的背景、您的贡献以及项目带来的影响。
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签1</span>
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签2</span>
+                                    <span className="px-3 py-1 bg-black text-white text-xs rounded-full">技能标签3</span>
+                                </div>
+                            </motion.div>
                         </div>
                     </section>
 
