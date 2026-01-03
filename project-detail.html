@@ -347,104 +347,37 @@
                         </motion.div>
                     </div>
 
-                    {/* 图片展示区 - 垂直排列，最后两张并排 */}
+                    {/* 图片展示区 - 垂直排列 */}
                     <div className="px-6 md:px-20 pb-20">
                         <div className="max-w-6xl mx-auto space-y-12">
-                            {project.images.map((img, idx) => {
-                                // 判断是否是最后两张图片
-                                const isLastTwo = idx >= project.images.length - 2;
-                                const isSecondLast = idx === project.images.length - 2;
-                                
-                                // 如果是倒数第二张，开始一个并排容器
-                                if (isSecondLast) {
-                                    return (
-                                        <motion.div
-                                            key={`grid-${idx}`}
-                                            initial={{ opacity: 0, y: 50 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true, margin: "-10%" }}
-                                            transition={{ duration: 0.6, delay: idx * 0.1 }}
-                                            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                            {project.images.map((img, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-10%" }}
+                                    transition={{ duration: 0.6, delay: idx * 0.1 }}
+                                    className="relative overflow-hidden rounded-lg shadow-lg"
+                                >
+                                    {img.endsWith('.mp4') ? (
+                                        <video 
+                                            controls 
+                                            preload="metadata"
+                                            className="w-full h-auto object-contain"
+                                            style={{ minHeight: '400px', backgroundColor: '#000' }}
                                         >
-                                            {/* 倒数第二张 */}
-                                            <div className="relative overflow-hidden rounded-lg shadow-lg">
-                                                {img.endsWith('.mp4') ? (
-                                                    <video 
-                                                        controls 
-                                                        preload="metadata"
-                                                        className="w-full h-auto object-contain"
-                                                        style={{ minHeight: '300px', backgroundColor: '#000' }}
-                                                    >
-                                                        <source src={img} type="video/mp4" />
-                                                        Your browser does not support the video tag.
-                                                    </video>
-                                                ) : (
-                                                    <img
-                                                        src={img}
-                                                        alt={`${project.title} - ${idx + 1}`}
-                                                        className="w-full h-auto object-contain"
-                                                    />
-                                                )}
-                                            </div>
-                                            {/* 最后一张 */}
-                                            <div className="relative overflow-hidden rounded-lg shadow-lg">
-                                                {project.images[idx + 1].endsWith('.mp4') ? (
-                                                    <video 
-                                                        controls 
-                                                        preload="metadata"
-                                                        className="w-full h-auto object-contain"
-                                                        style={{ minHeight: '300px', backgroundColor: '#000' }}
-                                                    >
-                                                        <source src={project.images[idx + 1]} type="video/mp4" />
-                                                        Your browser does not support the video tag.
-                                                    </video>
-                                                ) : (
-                                                    <img
-                                                        src={project.images[idx + 1]}
-                                                        alt={`${project.title} - ${idx + 2}`}
-                                                        className="w-full h-auto object-contain"
-                                                    />
-                                                )}
-                                            </div>
-                                        </motion.div>
-                                    );
-                                }
-                                
-                                // 跳过最后一张（已在上面处理）
-                                if (idx === project.images.length - 1) {
-                                    return null;
-                                }
-                                
-                                // 其他图片正常显示
-                                return (
-                                    <motion.div
-                                        key={idx}
-                                        initial={{ opacity: 0, y: 50 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true, margin: "-10%" }}
-                                        transition={{ duration: 0.6, delay: idx * 0.1 }}
-                                        className="relative overflow-hidden rounded-lg shadow-lg"
-                                    >
-                                        {img.endsWith('.mp4') ? (
-                                            <video 
-                                                controls 
-                                                preload="metadata"
-                                                className="w-full h-auto object-contain"
-                                                style={{ minHeight: '400px', backgroundColor: '#000' }}
-                                            >
-                                                <source src={img} type="video/mp4" />
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        ) : (
-                                            <img
-                                                src={img}
-                                                alt={`${project.title} - ${idx + 1}`}
-                                                className="w-full h-auto object-contain"
-                                            />
-                                        )}
-                                    </motion.div>
-                                );
-                            })}
+                                            <source src={img} type="video/mp4" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    ) : (
+                                        <img
+                                            src={img}
+                                            alt={`${project.title} - ${idx + 1}`}
+                                            className="w-full h-auto object-contain"
+                                        />
+                                    )}
+                                </motion.div>
+                            ))}
                         </div>
 
                         {/* 外部链接按钮 */}
