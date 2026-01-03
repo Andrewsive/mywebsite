@@ -256,8 +256,9 @@
                                     {img.endsWith('.mp4') ? (
                                         <video 
                                             controls 
-                                            className="w-full h-auto"
-                                            poster={img.replace('.mp4', '-poster.jpg')}
+                                            preload="metadata"
+                                            className="w-full h-auto object-contain"
+                                            style={{ minHeight: '400px', backgroundColor: '#000' }}
                                         >
                                             <source src={img} type="video/mp4" />
                                             Your browser does not support the video tag.
