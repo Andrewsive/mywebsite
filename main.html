@@ -306,7 +306,6 @@
         const App = () => {
             const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
             const [cursorVariant, setCursorVariant] = useState("default");
-            const [navWhite, setNavWhite] = useState(false);
             
             // 鼠标跟随逻辑
             useEffect(() => {
@@ -315,20 +314,6 @@
                 };
                 window.addEventListener("mousemove", mouseMove);
                 return () => window.removeEventListener("mousemove", mouseMove);
-            }, []);
-
-            // 滚动监听，改变导航栏颜色
-            useEffect(() => {
-                const handleScroll = () => {
-                    // 当滚动超过视口高度的 50% 时，导航栏变白
-                    if (window.scrollY > window.innerHeight * 0.5) {
-                        setNavWhite(true);
-                    } else {
-                        setNavWhite(false);
-                    }
-                };
-                window.addEventListener("scroll", handleScroll);
-                return () => window.removeEventListener("scroll", handleScroll);
             }, []);
 
             const textEnter = () => setCursorVariant("hovered");
@@ -350,7 +335,7 @@
                     />
 
                     {/* 导航栏 */}
-                    <nav className={`fixed top-0 w-full p-8 flex justify-between items-center z-40 transition-colors duration-300 ${navWhite ? 'text-white' : 'text-[#111]'}`}>
+                    <nav className="fixed top-0 w-full p-8 flex justify-between items-center z-40 mix-blend-difference text-white">
                         <motion.div 
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
